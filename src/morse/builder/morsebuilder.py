@@ -300,6 +300,10 @@ class Armature(Actuator):
                 # our own Blender armature.
                 bpymorse.delete([self._bpy_object])
             self.set_blender_object(bpymorse.get_object(armature_name))
+            # follwoing is to solve a bug while using JointTrajectoryAction
+            # if i understand correctly morseable() should be called only after
+            # setting proper blender object, so colling it here again
+            self.morseable()
             self.properties(Component_Tag = True)
 
         # default classpath for Armature (can be modified)

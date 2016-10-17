@@ -46,6 +46,7 @@ class Teleport(morse.core.actuator.Actuator):
         self.local_data['roll'] = pose3d.roll
         self.local_data['pitch'] = pose3d.pitch
         self.local_data['yaw'] = pose3d.yaw
+        self.last_local_data = dict()
 
         self.actuator2robot = self.position_3d.transformation3d_with(self.robot_parent.position_3d)
 
@@ -81,9 +82,13 @@ class Teleport(morse.core.actuator.Actuator):
         self.local_data['pitch'] += pitch
         self.local_data['yaw'] += yaw
 
-
     def default_action(self):
         """ Change the parent robot pose. """
+
+        if self.last_local_data == self.local_data:
+            return
+
+        self.last_local_data = dict(self.local_data)
 
         # New parent position
         position = mathutils.Vector((self.local_data['x'],

@@ -104,6 +104,6 @@ class Teleport(morse.core.actuator.Actuator):
         world2actuator.translation = position
         world2actuator.rotation = orientation
 
-        (loc, rot, _) = (world2actuator.matrix * self.actuator2robot.matrix).decompose()
+        (loc, rot, _) = (self.actuator2robot.matrix * world2actuator.matrix).decompose()
 
         self.robot_parent.force_pose(loc, rot)
